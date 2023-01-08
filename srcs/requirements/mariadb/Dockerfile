@@ -24,12 +24,10 @@ RUN apt-get update && apt-get install -y \
 COPY --chmod=770 ./tools/mariadb_init.sh /tmp/mariadb_init.sh
 COPY ./tools/wordpress_init.sql /tmp/wordpress_init.sql
 
+# Copy config file
+COPY ./conf/mariadb-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-# Install mai
-# RUN echo 'mariadb setup..' \
-# 	&& apt-get install -y \
-# 	mariadb-server \
-# 	mariadb-client \
-# 	&& rm -rf /var/lib/apt/lists/*
+# Execute maraidb init script
+ENTRYPOINT [ "/tmp/mariadb_init.sh" ]
 
-# ENTRYPOINT [ "mariadbd" ]
+CMD [ "mysqld" ]
