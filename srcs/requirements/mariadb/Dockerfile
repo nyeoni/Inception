@@ -29,3 +29,5 @@ COPY ./conf/mariadb-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Execute maraidb init script
 ENTRYPOINT [ "/tmp/mariadb_init.sh" ]
+
+CMD [ "mysqld" ]

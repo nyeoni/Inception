@@ -5,7 +5,6 @@
 # Exit on error
 set -e
 
-# TODO: if 조건문 좋은 방법 고민해보기
 # Create the database if it does not exist
 if [ ! -d /var/lib/mysql/${WORDPRESS_DB_NAME} ]; then
 	# install initial database
@@ -29,4 +28,4 @@ fi
 
 echo "Starting mariadb daemon"
 # start mariadb daemon
-exec /usr/bin/mysqld_safe --datadir='/var/lib/mysql'
+exec "$@"
