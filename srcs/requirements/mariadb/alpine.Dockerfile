@@ -25,6 +25,8 @@ COPY ./tools/wordpress_init.sql /tmp/wordpress_init.sql
 # Copy config file
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
+EXPOSE 3306
+
 # Execute maraidb init script
 ENTRYPOINT [ "/tmp/mariadb_init.sh" ]
 
