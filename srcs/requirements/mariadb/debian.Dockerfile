@@ -25,7 +25,7 @@ COPY --chmod=770 ./tools/mariadb_init.sh /tmp/mariadb_init.sh
 COPY ./tools/wordpress_init.sql /tmp/wordpress_init.sql
 
 # Copy config file
-COPY ./conf/mariadb-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # Execute maraidb init script
 ENTRYPOINT [ "/tmp/mariadb_init.sh" ]
