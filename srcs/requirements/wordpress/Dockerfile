@@ -5,7 +5,15 @@ ENV MARIADB_ROOT_NAME=root \
 	MARIADB_HOST=mariadb \
 	WORDPRESS_DB_NAME=wordpress \
 	WORDPRESS_DB_USER=wordpress \
-	WORDPRESS_DB_PASSWORD=wordpress
+	WORDPRESS_DB_PASSWORD=wordpress \
+	DOMAIN_NAME=nkim.42.fr \
+	WORDPRESS_TITLE=Inception \
+	WORDPRESS_ADMIN_USER=wproot \
+	WORDPRESS_ADMIN_PASSWORD=wproot \
+	WORDPRESS_ADMIN_EMAIL=nkim@student.42seoul.kr \
+	WORDPRESS_USER=nkim \
+	WORDPRESS_USER_PASSWORD=nkim \
+	WORDPRESS_USER_EMAIL=42.4.nkim@gmail.com
 
 # Install php, mariadb-client and curl
 RUN apk update \
