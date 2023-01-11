@@ -1,0 +1,107 @@
+# Static Docker Compose Version
+# A lot of non-using options were removed on version 3.x
+# Docker Swarm is compatible with Docker Compose on version 3.x
+# Deploy option was added on version 3.x
+# Enough scalability for version 3.x (Same version specification will be needed on multiple Docker Compose)
+version: "3.0"
+
+# Docker Compose Service
+services:
+  # MariaDB Service
+  mariadb:
+    # Image Name
+    image: mariadb
+    # Container Name
+    container_name: mariadb
+    # Image Build
+    build:
+      context: ./requirements/mariadb
+      dockerfile: alpine.Dockerfile
+    # Run tini as PID 1 and reap zombie processes
+    init: true
+    # Env file path
+    env_file: ./.env
+    # Container termination policy
+    restart: "always"
+    # Volume
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    # Network
+    networks:
+      - inception_net
+
+  # Wordpress Service
+  wordpress:
+    # Image Name
+    image: wordpress
+    # Container Name
+    container_name: wordpress
+    # Image Build
+    build: ./requirements/wordpress
+    # Run tini as PID 1 and reap zombie processes
+    init: true
+    # Start after depends container running
+    depends_on:
+      - mariadb
+    # Env file path
+    env_file: ./.env
+    # Container termination policy
+    restart: "always"
+    # Volume
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    # Network
+    networks:
+      - inception_net
+
+  # Nginx Service
+  nginx:
+    # Image Name
+    image: nginx
+    # Container Name
+    container_name: nginx
+    # Image Build
+    build: ./requirements/nginx
+    # Run tini as PID 1 and reap zombie processes
+    init: true
+    # Start after depends container running
+    depends_on:
+      - wordpress
+    # Env file path
+    env_file: ./.env
+    # Container termination policy
+    restart: "always"
+    # Volume to Be Independent of Container
+    volumes:
+      - wordpress_volume:/var/www/wordpress
+    # Network
+    networks:
+      - inception_net
+    ports:
+      - "443:443"
+
+# Docker Compose Network
+networks:
+  # Network Name
+  inception_net:
+    # Network Name (not to include path/)
+    name: inception_net
+    # Network Driver
+    driver: bridge
+
+# Docker Compose Volume
+volumes:
+  mariadb_volume:
+    name: mariadb_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/nkim/data/mariadb
+  wordpress_volume:
+    name: wordpress_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/nkim/data/wordpress
