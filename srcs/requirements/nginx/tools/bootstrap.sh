@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
 # Bootstrap nginx
-nginx
-
-# Print nginx logs
-# if [ $? -eq 0 ]; then
-# 	tail -f /var/log/nginx/access.log /var/log/nginx/error.log
-# fi
-
-exec "$@"
+if [ $@ -eq 'log' ]; then
+	# run nginx as service
+	nginx
+	# print nginx log
+	tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+else
+	exec "$@"
+fi
