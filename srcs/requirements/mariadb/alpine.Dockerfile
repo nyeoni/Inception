@@ -1,11 +1,5 @@
 FROM alpine:3.16
 
-ENV MARIADB_ROOT_NAME=root \
-	MARIADB_ROOT_PASSWORD=root \
-	WORDPRESS_DB_NAME=wordpress \
-	WORDPRESS_DB_USER=wordpress \
-	WORDPRESS_DB_PASSWORD=wordpress
-
 # Save mariadb history volume
 RUN SNIPPET="export PROMPT_COMMAND='history -a' \
 	&& export HISTFILE=/commandhistory/.bash_history" \
