@@ -20,24 +20,31 @@ fi
 # Create wordpress config file
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
 	# create wordpress config file
-	wp core config --user=www-data --path=/var/www/wordpress --dbname=${WORDPRESS_DB_NAME} --dbuser=${WORDPRESS_DB_USER} --dbpass=${WORDPRESS_DB_PASSWORD} --dbhost=${MARIADB_HOST} --extra-php < /tmp/wp-config
+	wp core config --allow-root --path=/var/www/wordpress --dbname=${WORDPRESS_DB_NAME} --dbuser=${WORDPRESS_DB_USER} --dbpass=${WORDPRESS_DB_PASSWORD} --dbhost=${MARIADB_HOST} --extra-php < /tmp/wp-config
 	echo 'Wordpress Config file created'
 else
 	echo 'Wordpress Config file already exists'
 fi
 
 # Install wordpress
-if ! wp core is-installed --user=www-data; then
+if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
 	# create wordpress tables in the database and create admin user
-	wp core install --user=www-data \
+	wp core install --allow-root --path=/var/www/wordpress \
 	--url=${DOMAIN_NAME} \
 	--title=${WORDPRESS_TITLE} \
 	--admin_user=${WORDPRESS_ADMIN_USER} \
 	--admin_password=${WORDPRESS_ADMIN_PASSWORD} \
 	--admin_email=${WORDPRESS_ADMIN_EMAIL}
 	# create user
-	wp user create --user=www-data ${WORDPRESS_USER} ${WORDPRESS_USER_EMAIL} --role=author --user_pass=${WORDPRESS_USER_PASSWORD}
+	wp user create --allow-root --path=/var/www/wordpress ${WORDPRESS_USER} ${WORDPRESS_USER_EMAIL} --role=author --user_pass=${WORDPRESS_USER_PASSWORD}
 fi
 
 # Excute arg
-exec "$@"
+if [ $@ -eq 'log' ]; then
+	# Start php-fpm
+	php-fpm8
+	# Print nginx logs
+	tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+else
+	exec "$@"
+fi
