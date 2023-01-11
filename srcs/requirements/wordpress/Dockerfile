@@ -26,6 +26,9 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp
 
+# Copy php-fpm config file
+COPY ./conf/www.conf /etc/php8/php-fpm.d
+
 # Copy wordpress config file
 COPY ./conf/wp-config /tmp/wp-config
 
@@ -35,3 +38,5 @@ COPY --chmod=770 ./tools/wordpress_init.sh /tmp/wordpress_init.sh
 EXPOSE 9000
 
 ENTRYPOINT [ "/tmp/wordpress_init.sh" ]
+
+CMD [ "php-fpm8", "-F" ]
