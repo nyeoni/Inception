@@ -5,6 +5,11 @@
 # Exit on error
 set -ex
 
+if [ ! -d /run/mysqld ]; then
+	mkdir -p /run/mysqld
+	chown -R mysql:mysql /run/mysqld
+fi
+
 # Create the database if it does not exist
 if [ ! -d /var/lib/mysql/${WORDPRESS_DB_NAME} ]; then
 	# create /var/log/mysql/error.log if it does not exist
@@ -31,6 +36,8 @@ if [ ! -d /var/lib/mysql/${WORDPRESS_DB_NAME} ]; then
 
 	echo "Mariadb initialization complete"
 fi
+
+set +e
 
 echo "Starting mariadb daemon"
 # start mariadb daemon
