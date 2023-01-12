@@ -13,7 +13,7 @@ if [ "$@" = "log" ]; then
 	echo "Nginx is starting..."
 	nginx
 	# print nginx log
-	tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+	# tail -f /var/log/nginx/access.log /var/log/nginx/error.log
 else
 	exec "$@"
 fi
