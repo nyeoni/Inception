@@ -47,8 +47,8 @@ fi
 if [ "$@" -eq 'log' ]; then
 	# Start php-fpm
 	php-fpm8
-	# Print nginx logs
-	tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+	# Print php-fpm logs
+	tail -f /var/log/php8/*access.log
 else
 	exec "$@"
 fi
