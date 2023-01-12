@@ -5,6 +5,9 @@
 # Exit on error
 set -x
 
+# create www-data system user if not exists
+adduser -D -S -H -G www-data www-data
+
 # Create wordpress directory
 if [ ! -d /var/www/wordpress ]; then
 	# create wordpress directory if not exists
@@ -18,11 +21,8 @@ mariadb-admin ping  -u${MARIADB_ROOT_NAME} -p${MARIADB_ROOT_PASSWORD} --host=${M
 if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
 	# download latest wordpress to wordpress path
 	wp core download --path=/var/www/wordpress
-	# create www-data system user if not exists
-	adduser -D -S -H -G www-data www-data
 	# change ownership of wordpress directory to www-data
 	chown -R www-data:www-data /var/www/wordpress
-
 	# create wordpress config file
 	if [ ! -f /var/www/wordpress/wp-config.php ]; then
 		# create wordpress config file
@@ -44,11 +44,11 @@ if ! wp core is-installed --allow-root --path=/var/www/wordpress; then
 fi
 
 # Excute arg
-if [ "$@" -eq 'log' ]; then
+if [ "$@" -eq "log" ]; then
 	# Start php-fpm
 	php-fpm8
 	# Print php-fpm logs
-	tail -f /var/log/php8/*access.log
+	# tail -f /var/log/php8/*access.log
 else
 	exec "$@"
 fi
