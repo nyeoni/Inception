@@ -11,28 +11,30 @@ VOLUME_PATH		=	/Users/chloek/42Seoul/Inception/srcs/data/mariadb \
 help	:
 			@echo "Usage: make [OPTION]"
 			@echo "Options:"
-			@echo "  all: Build and run containers"
-			@echo "  clean: Stop and remove containers"
-			@echo "  fclean: Stop and remove containers, images, and volumes"
-			@echo "  prune: Stop and remove containers, images, and volumes, and remove data"
-			@echo "  re: Stop and remove containers, images, and volumes, and remove data, and build and run containers"
+			@echo "  build\t\t\tBuild docker images"
+			@echo "  up\t\t\tRun docker containers"
+			@echo "  all\t\t\tBuild and run docker containers"
+			@echo "  down\t\t\tStop and remove docker containers"
+			@echo "  fclean\t\tStop and remove docker containers and images"
+			@echo "  prune\t\t\tStop and remove docker containers and images and volumes"
+			@echo "  re\t\t\tStop and remove docker containers and images and volumes and build and run docker containers"
 
 .PHONY	: build
 build	:
 			mkdir -p $(VOLUME_PATH)
 			docker compose -f $(COMPOSE_SOURCE) build --no-cache
 
-.PHONY	: run
-run		:
+.PHONY	: up
+up		:
 			docker compose -f $(COMPOSE_SOURCE) up
 
 .PHONY	:	all
 all		:
 			$(MAKE) build
-			$(MAKE) run
+			$(MAKE) up
 
-.PHONY	:	clean
-clean	:
+.PHONY	:	down
+down	:
 			docker compose -f $(COMPOSE_SOURCE) down
 
 .PHONY	:	fclean
