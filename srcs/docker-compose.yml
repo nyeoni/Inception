@@ -10,7 +10,7 @@ services:
   # MariaDB Service
   mariadb:
     # Image Name
-    image: mariadb
+    image: mariadb:v1
     # Container Name
     container_name: mariadb
     # Image Build
@@ -34,7 +34,7 @@ services:
   # Wordpress Service
   wordpress:
     # Image Name
-    image: wordpress
+    image: wordpress:v1
     # Container Name
     container_name: wordpress
     # Image Build
@@ -58,7 +58,7 @@ services:
   # Nginx Service
   nginx:
     # Image Name
-    image: nginx
+    image: nginx:v1
     # Container Name
     container_name: nginx
     # Image Build
