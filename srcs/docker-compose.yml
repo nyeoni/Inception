@@ -25,6 +25,7 @@ services:
     restart: "always"
     # Volume
     volumes:
+      - mariadb_log:/var/log/mysql
       - mariadb_volume:/var/lib/mysql
     # Network
     networks:
@@ -97,11 +98,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/nkim/data/mariadb
+      device: /Users/chloek/42Seoul/Inception/srcs/data/mariadb
+  mariadb_log:
+    name: mariadb_log
   wordpress_volume:
     name: wordpress_volume
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/nkim/data/wordpress
+      device: /Users/chloek/42Seoul/Inception/srcs/data/wordpress
