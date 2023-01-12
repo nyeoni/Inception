@@ -10,6 +10,11 @@ if [ ! -d /run/mysqld ]; then
 	chown -R mysql:mysql /run/mysqld
 fi
 
+if [ ! -d /auth_pam_tool_dir ]; then
+	mkdir -p /auth_pam_tool_dir
+	chown -R mysql:mysql /auth_pam_tool_dir
+fi
+
 # Create the database if it does not exist
 if [ ! -d /var/lib/mysql/${WORDPRESS_DB_NAME} ]; then
 	# create /var/log/mysql/error.log if it does not exist
@@ -19,7 +24,7 @@ if [ ! -d /var/lib/mysql/${WORDPRESS_DB_NAME} ]; then
 	chown -R mysql:mysql /var/log/mysql
 	chown -R mysql:mysql /var/lib/mysql
 	# install initial database
-	mysql_install_db --user=mysql --auth-root-authentication-method=normal
+	mysql_install_db --user=mysql
 	# start mariadb daemon in safe mode
 	/usr/bin/mysqld_safe --datadir='/var/lib/mysql' &
 	# wait for mariadb to start
